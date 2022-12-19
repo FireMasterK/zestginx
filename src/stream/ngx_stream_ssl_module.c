@@ -269,6 +269,9 @@ static ngx_stream_variable_t  ngx_stream_ssl_vars[] = {
     { ngx_string("ssl_ciphers"), NULL, ngx_stream_ssl_variable,
       (uintptr_t) ngx_ssl_get_ciphers, NGX_STREAM_VAR_CHANGEABLE, 0 },
 
+    { ngx_string("ssl_curve"), NULL, ngx_stream_ssl_variable,
+      (uintptr_t) ngx_ssl_get_curve, NGX_STREAM_VAR_CHANGEABLE, 0 },
+
     { ngx_string("ssl_curves"), NULL, ngx_stream_ssl_variable,
       (uintptr_t) ngx_ssl_get_curves, NGX_STREAM_VAR_CHANGEABLE, 0 },
 
@@ -1070,7 +1073,7 @@ ngx_stream_ssl_session_cache(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
                 len++;
             }
 
-            if (len == 0) {
+            if (len == 0 || j == value[i].len) {
                 goto invalid;
             }
 
